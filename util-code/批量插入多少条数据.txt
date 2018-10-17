@@ -1,4 +1,4 @@
-private void batchInsertOplog( List<FcScamOrderOprlogDto> list){
+﻿private void batchInsertOplog( List<FcScamOrderOprlogDto> list){
         int size = list.size();
         int mod = size / OrderConstant.BATCH_INSERT_NUM;
         for (int i = 0; i <= mod; i++) {
@@ -15,6 +15,7 @@ private void batchInsertOplog( List<FcScamOrderOprlogDto> list){
     }
 
 数据库mybatis语句
+
 <insert id="batchInsertFcScamOrderOprlogDto" parameterType="java.util.List">
              INSERT INTO fc_scam_order_oprlog (
                  ORDER_ID,
