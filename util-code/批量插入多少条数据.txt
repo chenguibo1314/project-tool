@@ -14,10 +14,7 @@ private void batchInsertOplog( List<FcScamOrderOprlogDto> list){
         }
     }
 
-
-
-
-
+数据库mybatis语句
 <insert id="batchInsertFcScamOrderOprlogDto" parameterType="java.util.List">
              INSERT INTO fc_scam_order_oprlog (
                  ORDER_ID,
