@@ -1,0 +1,36 @@
+private void batchInsertOplog( List<FcScamOrderOprlogDto> list){
+        int size = list.size();
+        int mod = size / OrderConstant.BATCH_INSERT_NUM;
+        for (int i = 0; i <= mod; i++) {
+            List<FcScamOrderOprlogDto> subMaintenancePatchs = null;
+            if (i == mod) {
+                subMaintenancePatchs = list.subList(i * OrderConstant.BATCH_INSERT_NUM, size);
+            } else {
+                subMaintenancePatchs = list.subList(i * OrderConstant.BATCH_INSERT_NUM, (i + 1) * OrderConstant.BATCH_INSERT_NUM);
+            }
+            if (!CollectionUtils.isEmpty(subMaintenancePatchs)) {
+                fcScamOrderOprlogDao.batchInsertFcScamOrderOprlogDto(subMaintenancePatchs);
+            }
+        }
+    }
+
+
+
+
+
+<insert id="batchInsertFcScamOrderOprlogDto" parameterType="java.util.List">
+             INSERT INTO fc_scam_order_oprlog (
+                 ORDER_ID,
+                 ORDER_TYPE,
+                 ORDER_STATUS,
+                 LONGTITUDE
+     		 ) values
+             <foreach collection="list" item="item" separator=",">
+		     (   
+				 #{item.orderId, jdbcType=VARCHAR},
+				 #{item.orderType, jdbcType=VARCHAR},
+				 #{item.orderStatus, jdbcType=VARCHAR},
+				 #{item.longtitude, jdbcType=VARCHAR}	 
+		    )
+	    </foreach>
+</insert> 
