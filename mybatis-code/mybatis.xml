@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.scam.order.dao.scamOrderMapper">
+	<resultMap id="BaseResultMap" type="com.scam.order.dto.scamOrder">
+		<result property="id" column="ID" jdbcType="NUMERIC" />
+		<result property="orderId" column="ORDER_ID" jdbcType="VARCHAR" />
+		<result property="siteId" column="SITE_ID" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID,ORDER_ID,SITE_ID,PROVINCE_NAME,CITY_NAME,DISTRICT_NAME,REGION_NAME,DETAILED_ADDRESS,CONCRETE_PLACEMENT
+	</sql>
+	
+	<!--where条件-->
+	<sql id="scamOrder_Where_Clause">
+		<trim prefix=" WHERE  " prefixOverrides="AND">
+			<if test="id != null and id != ''">
+				AND ID=#{id , jdbcType=NUMERIC}
+			</if>	
+			<!--小于或者等于-->
+			 <if test="workFinishTm != null">
+              			AND work_finish_tm <![CDATA[<]]><![CDATA[=]]> #{workFinishTm, jdbcType=TIMESTAMP}
+          		</if>
+			<!--模糊like-->
+			<if test="newAddrPlaceDesc!=null and newAddrPlaceDesc!='' ">
+   				AND new_addr_place LIKE CONCAT('%',#{newAddrPlaceDesc, jdbcType=VARCHAR},'%')
+			</if>
+			<!--查询in-->
+			<if test="cityNameList != null and cityNameList != ''">
+			    AND CITY_NAME IN
+			    <foreach collection="cityNameList" item="cityNameItem" open="(" close=")" separator=",">
+			        #{cityNameItem, jdbcType=VARCHAR}
+			    </foreach>
+			</if>
+		</trim>
+	</sql>
+	
+	<!--查询-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from scam_order
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<!--删除-->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		scam_order
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<!--批量删除-->
+	<delete id="batchDeletescamOldBox" parameterType="java.util.List">
+		<foreach collection="list" item="item" open="" close="" separator=";" >
+			DELETE FROM scam_old_box_photo where
+			box_code=#{item.boxCode , jdbcType=VARCHAR}
+		</foreach>
+	</delete>
+	
+	<!--单个插入-->
+	<insert id="insert" parameterType="com.scam.order.dto.scamOrder">
+		INSERT INTO scam_order (
+		ID,
+		ORDER_ID,
+		SITE_ID
+		) VALUES (
+	    	#{id, jdbcType=NUMERIC},#{orderId, jdbcType=VARCHAR},#{siteId, jdbcType=VARCHAR})
+	</insert>
+	
+	<!--批量插入-->
+	<insert id="batchInsertOrders" parameterType="java.util.List">
+		INSERT INTO scam_order (ID,ORDER_ID,SITE_ID,CHANGE_ORDER_ID)
+		<foreach collection="list" item="item" index="index" separator="union all">
+			select #{item.id, jdbcType=NUMERIC},#{item.orderId, jdbcType=VARCHAR},#{item.siteId, jdbcType=VARCHAR},#{item.changeOrderId, jdbcType=NUMERIC}
+			from dual
+		</foreach>
+	</insert>
+	
+	<!--单个更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.fcbox.scam.order.dto.scamOrder">
+		update scam_order
+		<set>
+			<if test="orderId !=null and orderId !=''">
+				ORDER_ID=#{orderId , jdbcType=VARCHAR},
+			</if>
+			<if test="siteId !=null and siteId !=''">
+				SITE_ID=#{siteId , jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<!--批量更新-->
+	<update id="batchUpdate" parameterType="java.util.List">
+       <foreach collection="list" item="item" open="" close="" separator=";" >
+             update scam_order
+	         <set>
+	         	 <if test="item.changeOrderId!=null">
+	               CHANGE_ORDER_ID=#{item.changeOrderId , jdbcType=NUMERIC},
+	             </if>
+  	             <if test="item.roomRelation!=null and item.roomRelation!='' ">
+	               room_relation=#{item.roomRelation , jdbcType=VARCHAR},
+	             </if>
+  	         </set>
+ 	          where  order_id =  #{item.orderId , jdbcType=VARCHAR}
+        </foreach>
+   </update>
+   
+</mapper>
