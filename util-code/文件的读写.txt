@@ -1,0 +1,30 @@
+public static void writeFile(String strSrc, String dest,String fileName) {  
+        FileWriter writer = null;  
+        FileReader reader = null;  
+        BufferedReader br = null;  
+        BufferedWriter bw = null;  
+        try {  
+            File file = new File(dest);  
+            if (!file.exists()) {  
+                file.createNewFile();  
+            }  
+            // 这里的true，是以追加的方式写  
+            writer = new FileWriter(dest, true);  
+            reader = new FileReader(strSrc);  
+            String str = null;  
+            br = new BufferedReader(reader);  
+            bw = new BufferedWriter(writer);  
+            //StringBuffer sb = new StringBuffer("STAFF_COMPANY	EXPRESSID");  
+            while ((str = br.readLine()) != null) {  
+                //sb.append("\r"+str);  
+                //bw.write(sb.toString());  
+            	bw.write(fileName+"                 "+str+"\r\n");  
+            }  
+            br.close();  
+            reader.close();  
+            bw.close();  
+            writer.close();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
+    }  

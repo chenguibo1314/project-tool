@@ -1,0 +1,95 @@
+1、配置springboot日志监听依赖
+
+<dependency>  
+<groupId>org.springframework.boot</groupId>  
+<artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+
+
+2、需要手动设置运行状态监控
+
+##运行状态 actuator监控
+endpoints:
+  loggers:
+    enabled: true
+    sensitive: false
+management:
+  ##服务路径
+  context-path: /fcbox/manage
+
+
+3、发送post命令修改日志级别
+
+
+修改日志级别
+curl -H "Content-Type:application/json" -X POST --data "{
+'configuredLevel':'DEBUG'
+}
+" http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.controller.ExpressRouterController
+
+
+查看日志级别
+curl http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.controller.ExpressRouterController
+
+
+
+4、日志级别路径
+
+SF:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.sf.service.SFRouteServiceImpl
+
+AMAZ:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.amaz.service.AmazPcRouteServiceImpl
+
+ANE:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.ane.service.ANERouteServiceImpl
+
+BEST:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.best.service
+
+CHINAPOST:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.chinapost.service.ChinaPostWxRouteServiceImpl
+
+DEPPON:		http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.deppon.service
+
+EMS:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.ems.service
+
+GT:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.guotong.service.GTPcRouteServiceImpl
+
+HW:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.huiwen.service.HWPcRouteServiceImpl
+
+KD100:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.kd100.service.KuaiDi100RouteServiceImpl
+
+KJKD:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.kjkd.service
+
+MDM:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.menduimen.service.MDMPcRouteServiceImpl
+
+QF:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.qf.service.QFPcRouteServiceImpl
+
+STO:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.sto.service
+
+SN:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.suning.service
+
+TTKDEX:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.ttkdex.service.TtkdexRouteServiceImpl
+
+WX:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.wanxiang.service
+
+YD:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.yd.service.YDRouteServiceImpl
+
+YS:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.yousu.service.YSWxRouteServiceImpl
+
+YTO:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.yto.service
+
+ZMKM:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.zhimakaimen.service.ZMKMPcRouteServiceImpl
+
+ZJS:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.zjs.service.ZJSPcRouteServiceImpl
+
+ZTO:	http://localhost:8080/fcbox/manage/loggers/com.fcbox.router.express.zto.service
+
+
+
+
+
+
+
+
+
+
+
+
+
