@@ -1,0 +1,7 @@
+1、dubboAdmin是dubbo服务的可视化管理
+
+2、dubboAdmin中的webapps中的INF-WEB中的dubbo.propertis中的zk进行配置，使其连接到zk注册中心进行管理
+
+3、将构建dubboAdmin为war，进入dubbo-admin文件夹下面，构建命令为mvn package -Dmaven.skip.test=true
+
+4、将包放置在tomcat的webapps下,然后tomcat会自动进行解压，启动命令bin/startup.bat

@@ -1,0 +1,2 @@
+错误：java.io.IOException: Server returned HTTP response code: 400 for URL
+在使用JAVA发起http请求的时候，经常会遇到这个错误，我们copy请求地址在浏览器中运行的时候又是正常运行的，造成这个错误的原因主要是因为请求的URL中包含空格，这个时候我们要使用URLEncoder.encode(timestamp,"utf-8")对含有空格的参数进行处理;(注：只对需要处理的参数部分进行处理，不要把整个URL放进去，如果整个URL放进去会对URL中的"//"也会进行处理)；
