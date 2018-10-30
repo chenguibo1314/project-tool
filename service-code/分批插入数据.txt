@@ -1,12 +1,12 @@
 ﻿private void batchInsertOplog( List<FcScamOrderOprlogDto> list){
         int size = list.size();
-        int mod = size / OrderConstant.BATCH_INSERT_NUM;
+        int mod = size / 200;
         for (int i = 0; i <= mod; i++) {
             List<FcScamOrderOprlogDto> subMaintenancePatchs = null;
             if (i == mod) {
-                subMaintenancePatchs = list.subList(i * OrderConstant.BATCH_INSERT_NUM, size);
+                subMaintenancePatchs = list.subList(i * 200, size);
             } else {
-                subMaintenancePatchs = list.subList(i * OrderConstant.BATCH_INSERT_NUM, (i + 1) * OrderConstant.BATCH_INSERT_NUM);
+                subMaintenancePatchs = list.subList(i * 200, (i + 1) * 200);
             }
             if (!CollectionUtils.isEmpty(subMaintenancePatchs)) {
                 fcScamOrderOprlogDao.batchInsertFcScamOrderOprlogDto(subMaintenancePatchs);
